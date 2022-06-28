@@ -29,7 +29,9 @@ export class TypeOrmRepository<T extends BaseEntity> {
   async findById(id: EntityId, options?: any): Promise<T> {
     return await this.repository.findOne(options || {});
   }
-
+  async findOne(condition: any): Promise<T> {
+    return await this.repository.findOneBy(condition);
+  }
   async findByCondition(conditions: any): Promise<T[]> {
     return await this.repository.find(conditions);
   }
@@ -61,5 +63,9 @@ export class TypeOrmRepository<T extends BaseEntity> {
 
   public async findOneByCondition(conditions: any) {
     return await this.repository.findOne(conditions);
+  }
+
+  public async findAll() {
+    return await this.repository.find();
   }
 }

@@ -1,3 +1,5 @@
+import Author from 'src/modules/user/author.entity';
+import { UserEntity } from 'src/modules/user/user.entity';
 import { DataSource } from 'typeorm';
 import { databaseConfig } from '../configs.constants';
 
@@ -12,7 +14,7 @@ export const mysqlProviders = [
         username: databaseConfig.username,
         password: databaseConfig.password,
         database: databaseConfig.database,
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        entities: [UserEntity, Author],
         synchronize: databaseConfig.synchronize == 'TRUE',
       });
       return dataSource.initialize();

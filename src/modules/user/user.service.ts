@@ -33,28 +33,28 @@ export class UserService {
     // const user = await this.entityRepository.save(data);
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.startTransaction();
-    let user;
+    let user, user1;
     try {
       const value = new UserEntity();
       value['username'] = data.username;
       value['password'] = data.password;
       // execute some operations on this transaction:
-      user = await queryRunner.manager.save(value);
-      if (user.id === 9) await queryRunner.rollbackTransaction();
+      user = await queryRunner.manager.insert(UserEntity, value);;
+      value['password'] = "ashdghasgdhahsdg";
+      user1 = await queryRunner.manager.insert(UserEntity, value);
       // commit transaction now:
       await queryRunner.commitTransaction();
       console.log('commit');
     } catch (err) {
       // since we have errors let's rollback changes we made
       console.log("rolback");
-      return err.message;
       await queryRunner.rollbackTransaction();
+      return err.message;
     } finally {
       // you need to release query runner which is manually created:
       await queryRunner.release()
     }
-
-    return user;
+    return user1;
 
   }
 
